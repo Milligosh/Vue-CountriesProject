@@ -28,12 +28,16 @@ const singleCountry = computed(() => {
         <button > <router-link to="/">Back</router-link> </button>
       </div>
       <div v-if="singleCountry">
-        <img :resource="singleCountry.flags.png" alt="">
+        <img :src="singleCountry?.flags.png" alt="">
         <p>{{ singleCountry?.name }}</p>
+        <p>Native Name:{{  }}</p>
         <p>Population:{{singleCountry.population  }}</p>
       <p>Region:{{singleCountry?.region }}</p>
+      <p>Subregion:{{ singleCountry.subregion}}</p>
       <p>Capital:{{singleCountry?.capital  }}</p>
-        <p></p>
+        <!-- <p> Top Level Domain:{{  }}</p>
+        <p>Currencies:{{singleCountry  }}</p>
+        <p>Languages:{{  }}</p> -->
       </div>
       <div v-else>
         <p>Loading...</p>
