@@ -17,17 +17,17 @@ import debounce from 'lodash.debounce'
     router.push({ name: 'detail', params: { name: countryName } });
   };
 
- onUpdated(()=>{
-   country.getCountries(inputInfo.value)
- })
+//  onUpdated(()=>{
+//    country.getCountries(inputInfo.value)
+//  })
  const filteredBySearch = computed(() => {
   const searchTerm = searchQuery.value.toLowerCase();
   if (searchTerm === '') {
     return filteredByContinent.value;
-  }
-  return country.countries.filter(countryData =>
-    countryData.name.common.toLowerCase().includes(searchTerm) 
-  )
+  }return filteredByContinent.value.filter((countryInfo)=> countryInfo.name.common.toLowerCase().includes(searchTerm))
+  // return country.countries.filter(countryData =>
+  //   countryData.name.common.toLowerCase().includes(searchTerm) 
+  // )
 });
 const filteredByContinent=computed(()=>{
   if(!selectedContinent.value){

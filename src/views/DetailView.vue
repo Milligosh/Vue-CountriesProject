@@ -1,19 +1,19 @@
 <script setup>
+
 import { useCounterStore } from '../stores/counter';
-import { useRoute, useRouter } from 'vue-router';
-import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { useRoute } from 'vue-router';
+import { ref, onMounted } from 'vue';
 
-const countryList = useCounterStore();
+const countryStore = useCounterStore();
 const route = useRoute();
-const router = useRouter();
 
-countryList.getCountries(route.params.name);
-console.log(countryList.countries)
-const singleCountry = computed(() => {
-  return countryList.countries[0];
+
+const countryData = ref(null);
+
+onMounted(async () => {
+  const countryName = route.params.name;
+  countryData.value = await countryStore.getCountryByName(countryName);
 });
-
 
 </script>
 
@@ -22,28 +22,26 @@ const singleCountry = computed(() => {
     
 
 <template>
-    <div class="detail">
-      <div class="button">
-        <img src="../assets/back.svg" alt="">
-        <button > <router-link to="/">Back</router-link> </button>
-      </div>
-      <div v-if="singleCountry">
-        <img :src="singleCountry?.flags.png" alt="">
-        <p>{{ singleCountry?.name }}</p>
-        <p>Native Name:{{  }}</p>
-        <p>Population:{{singleCountry.population  }}</p>
-      <p>Region:{{singleCountry?.region }}</p>
-      <p>Subregion:{{ singleCountry.subregion}}</p>
-      <p>Capital:{{singleCountry?.capital  }}</p>
-        <!-- <p> Top Level Domain:{{  }}</p>
-        <p>Currencies:{{singleCountry  }}</p>
-        <p>Languages:{{  }}</p> -->
-      </div>
-      <div v-else>
-        <p>Loading...</p>
-      </div>
+  <div class="detail">
+    <div class="button">
+      <img src="../assets/back.svg" alt="">
+      <button> <router-link to="/">Back</router-link> </button>
     </div>
-  </template>
+    <div v-if="countryData">
+      <img :src="countryData.flags.png" alt="">
+      <p>{{ countryData.name.common }}</p>
+      <p>Native Name: {{ countryData.name.native ? countryData.name.native.common : 'N/A' }}</p>
+      <p>Population: {{ countryData.population }}</p>
+      <p>Region: {{ countryData.region }}</p>
+      <p>Subregion: {{ countryData.subregion }}</p>
+      <p>Capital: {{ countryData.capital }}</p>
+      <!-- Add other country details here -->
+    </div>
+    <div v-else>
+      <p>Loading...</p>
+    </div>
+  </div>
+</template>
 
 
 
