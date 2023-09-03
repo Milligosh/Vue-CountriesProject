@@ -18,7 +18,8 @@
 .main{
     display:flex;
     padding:30px 0px 30px 16px;
-    justify-content:space-between;
+     justify-content:space-between; 
+    
     background:#fff;
     box-shadow:0px 2px 4px 0px rgba(0,0,0,0.06); 
 }
@@ -44,7 +45,7 @@
     font-weight:600;
     line-height:normal;
 }
-@media (min-width:1020px){
+@media (min-width:1024px){
 .main{
     padding:23px 80px 29px 81px;
 }
