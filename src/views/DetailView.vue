@@ -3,7 +3,9 @@
 import { useCounterStore } from '../stores/counter';
 import { useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue';
+import LoaderComponent from '../components/LoaderComponent.vue'
 
+const isLoading = ref(true)
 const countryStore = useCounterStore();
 const route = useRoute();
 
@@ -13,7 +15,13 @@ const countryData = ref(null);
 onMounted(async () => {
   const countryName = route.params.name;
   countryData.value = await countryStore.getCountryByName(countryName);
+  isLoading.value = false;
 });
+
+
+
+  
+
 
 </script>
 
@@ -23,11 +31,16 @@ onMounted(async () => {
 
 <template>
   <div class="detail">
+    
     <div class="button">
       <img src="../assets/back.svg" alt="">
       <button> <router-link to="/">Back</router-link> </button>
     </div >
-    <div class="main" v-if="countryData">
+
+    <div class="main" v-if="isLoading">
+      <LoaderComponent /> <!-- Replace with the name of your loader component -->
+    </div>
+    <div class="main" v-else>
       
       <div class="pic">
         <img :src="countryData?.flags.png" alt="">
@@ -45,7 +58,13 @@ onMounted(async () => {
     </div>
       <div class="down">
         <p><strong>Top Level Domain:</strong>{{ countryData?.tld[0]}}</p>
-        <p><strong>Currencies:</strong>{{ countryData?.currencies }}</p>
+        <p><strong>Currencies:</strong>
+      <span v-for="(currency, index) in countryData?.currencies" :key="index">
+        {{ currency.name }}
+        <!-- Add a comma if it's not the last currency -->
+        <span v-if="index < countryData?.currencies.length - 1">, </span>
+      </span>
+    </p>
         <p><strong>Languages:</strong>{{ countryData?.languages}}</p>
       </div>
     </div>
@@ -63,9 +82,9 @@ onMounted(async () => {
       
 
     </div>
-    <div v-else>
+    <!-- <div v-else>
       <p>Loading...</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -87,7 +106,7 @@ line-height: normal;
 }.division{
   display:flex;
   flex-direction:column;
-  gap:32px;
+  gap:92px;
 }
 .main{
   display:flex;
@@ -153,7 +172,7 @@ line-height: 32px;
 }.text{
 display:flex;
 flex-direction:column;
-gap:34px
+gap:54px
 }p{
   display:flex;
   align-items:center
@@ -195,12 +214,12 @@ line-height: normal;
   .text{
 display:flex;
 flex-direction:column;
-gap:117px
+gap:97px
 }
 .division{
   display:flex;
   flex-direction:row;
-  gap:117px;
+  gap:97px;
 }
 .border{
   display:flex;

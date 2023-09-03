@@ -1,11 +1,12 @@
 <script setup>
+// import useDarkMode from '../stores/store';
 
 </script>
 
 <template>
-  <div class="main">
+  <div class="main" >
     <h3>Where in the world?</h3>
-    <div class="dark">
+    <div class="dark"  >
         <img src="../assets/moon.svg" alt="">
        <h4>Dark Mode</h4>
     </div>
@@ -30,6 +31,10 @@
     justify-content: center;
     align-items:center
 
+}
+.main.dark-mode {
+  background-color: #333;
+  color: #fff;
 }
 
 .main h3{

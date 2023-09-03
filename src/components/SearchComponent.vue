@@ -2,7 +2,8 @@
  import{onUpdated, ref,computed,onMounted} from 'vue'
 import { useCounterStore} from '../stores/counter';
 import {useRouter} from  'vue-router';
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
+
 
 
  const country= useCounterStore();
@@ -38,9 +39,12 @@ const filteredByContinent=computed(()=>{
 const debouncedGetCountries = debounce((inputValue) => {
   country.getCountries(inputValue);
 }, 3000); 
-const handleInputChanged = () => {
-  debouncedGetCountries(inputInfo.value); 
-};
+// const handleInputChanged = () => {
+//   debouncedGetCountries(inputInfo.value); 
+// };
+const handleInputChanged = debounce(() => {
+  country.getCountries(inputInfo.value);
+}, 700);
 onMounted(() => {
   
   country.getCountries(inputInfo.value);
@@ -85,10 +89,12 @@ onMounted(() => {
 
       </div>
     </div>
-    
+  
  </template>
  
  <style scoped>
+
+
  input{
     border:none;
  }.tag{
@@ -136,14 +142,13 @@ line-height:16px
  .main{
     padding: 24px 16px 40px 16px;
     display:flex;
-    flex-direction:column;
-    
+    flex-direction:column; 
  }
  .country{
-   max-width:264px;
+   /* max-width:264px;
    width:100%;
    max-height:336px;
-   height:100%;
+   height:100%; */
       display:flex;
       flex-direction: column;
       align-items:center;
@@ -232,6 +237,7 @@ line-height:16px
     display:flex;
     flex-direction: row;
     gap:600px;
+    
     padding:48px 80px 48px 80px;
    }
    .inputDiv{
@@ -258,12 +264,19 @@ line-height:16px
    grid-template-columns: repeat(4, 1fr);
    /* grid-template-rows:repeat(4, 1fr);
    column-gap:60px; */
+   
    row-gap: 60px;
+   
     padding:48px 80px 0px 78px; 
    
   
  }
-   
- 
+
+ .sub{
+  max-width:264px;
+  width:100%;
+  height:100%;
+  max-height:336px;
+ }
  }
  </style>
